@@ -1,17 +1,21 @@
 {
   "name": "@pubdate/isbn",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "npx webpack",
+    "lint": "npx eslint src",
+    "prepare": "npm run build",
+    "test": "npx jest"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pubdate/isbn.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/pubdate/isbn/issues"
   },
