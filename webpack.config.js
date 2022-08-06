@@ -2,7 +2,10 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: {
+    index: './src/index.ts',
+    'isbn-without-registration-groups': './src/isbn-without-registration-groups.ts'
+  },
   module: {
     rules: [
       {
@@ -19,11 +22,11 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js']
   },
   output: {
-    filename: 'index.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     globalObject: 'this',
     library: {
-      name: 'isbn',
+      name: 'ISBN',
       type: 'umd',
       export: 'default'
     }
