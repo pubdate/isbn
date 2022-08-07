@@ -15,6 +15,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: npm ci
       - run: node ./dev/update-isbn-registration-groups.mjs
+      - run: npm run test
       - run: |
           if [[ `git status --porcelain` ]]; then
             git config --global user.name 'github-actions[bot]'
