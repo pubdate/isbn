@@ -1,0 +1,28 @@
+name: update-isbn-registration-groups
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+jobs:
+  update-isbn-registration-groups:
+    runs-on: ubuntu-latest
+    if: github.repository == 'pubdate/isbn'
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+          registry-url: 'https://registry.npmjs.org'
+      - run: npm ci
+      - run: node ./dev/update-isbn-registration-groups.mjs
+      - run: |
+          if [[ `git status --porcelain` ]]; then
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git commit -am "chore: update-isbn-registration-groups"
+            npm version patch
+            git push --follow-tags
+            npm publish --access public
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
