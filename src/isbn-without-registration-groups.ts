@@ -155,6 +155,7 @@ export default class IsbnWithoutRegistrationGroups {
     if (this.#error === undefined) {
       if (!['978', '979'].includes(this.eanPrefix)) this.#error = 'invalid_ean_prefix'
       else if (!REGEX_SE.test(this.source.replace('?', '0'))) this.#error = 'invalid_format'
+      else if (this.code.length !== 9) this.#error = 'invalid_format'
       else if (this.checksum !== '?' && this.checksum !== this.generateChecksum({ version: this.version })) this.#error = 'invalid_checksum'
       else this.#error = null
     }

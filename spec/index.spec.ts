@@ -52,6 +52,7 @@ describe('ISBN', () => {
       test("it returns 'invalid_format' when source is invalid", () => {
         expect(ISBN.parse('123-456-789-?-').error).toEqual('invalid_format')
         expect(ISBN.parse('-123-456-789-?').error).toEqual('invalid_format')
+        expect(ISBN.parse('978-123-456-7890-?').error).toEqual('invalid_format')
         expect(ISBN.parse('abc-def-xyz-?').error).toEqual('invalid_format')
         // Some of the ISBNs at https://en.wikipedia.org/wiki/List_of_ISBN_registration_groups are missing one or more hyphens.
         // They should probably be considered invalid but throwing errors in ISBN#toString() when we inevitably stumble upon one of those in the wild would not be great.
