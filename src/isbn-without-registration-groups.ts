@@ -273,8 +273,14 @@ export default class IsbnWithoutRegistrationGroups {
    * ISBN.parse('9782070408504').isCompatible({ version: 'isbn10' }) // true
    * ISBN.parse('9798565336375').isCompatible({ version: 'isbn10' }) // false
    */
-  isCompatible ({ version }: { version: Version }): boolean {
-    return version === 'isbn13' || [undefined, '978'].includes(this.eanPrefix)
+  isCompatible ({ version = 'isbn13', hyphens = false }: { version?: Version, hyphens?: _HyphensOption }): boolean {
+    // version
+    if (version === 'isbn10' && ![undefined, '978'].includes(this.eanPrefix)) return false
+    // hyphens
+    if (hyphens === true && this.codeParts == null) return false
+    if (hyphens === 'source' && this.sourceCodeParts == null) return false
+    // return
+    return true
   }
 
   /**
@@ -311,33 +317,30 @@ export default class IsbnWithoutRegistrationGroups {
    * ISBN.parse('669-999-999-0').toString({ hyphens: [true, 'source', false] }) // '978-669-999-999-3'
    * ISBN.parse('6699999990').toString({ hyphens: [true, 'source', false] }) // '9786699999993'
    */
-  toString ({ version = 'isbn13', hyphens = false }: { version?: Version | ['isbn10', 'isbn13'], hyphens?: HyphensOption } = {}): string {
+  toString ({ version = 'isbn13', hyphens = false }: { version?: Version | Version[], hyphens?: HyphensOption } = {}): string {
     if (!this.isValid) throw new IsbnError('invalid_source', 'check isValid before stringifying')
-    const v = [version].flat().find(version => this.isCompatible({ version }))
+    // version
+    version = [version].flat()
+    const v = version.find(version => this.isCompatible({ version }))
     if (v == null) throw new IsbnError('incompatible_version', "use version 'isbn13'; or chain version flags")
-    const codeParts = this.#getCodeParts({ hyphens })
+    // hyphens
+    hyphens = [hyphens].flat()
+    const h = hyphens.find(hyphens => this.isCompatible({ hyphens }))
+    if (h == null) {
+      if (hyphens[hyphens.length - 1] === 'source') throw new IsbnError('missing_or_invalid_hyphens', 'disable hyphens; or chain hyphens flags')
+      throw new IsbnError('registration_group_not_found', 'disable hyphens; or chain hyphens flags; or update @pubdate/isbn')
+    }
+    let codeParts
+    switch (h) {
+      case true: codeParts = this.codeParts!; break
+      case false: codeParts = [this.code]; break
+      case 'source': codeParts = this.sourceCodeParts!
+    }
+    // return
     return [
       v === 'isbn13' ? this.eanPrefix ?? '978' : '',
-      ...(codeParts ?? [this.code]),
+      ...codeParts,
       this.generateChecksum({ version: v })
-    ].filter(x => x).join(codeParts == null ? '' : '-')
-  }
-
-  #getCodeParts ({ hyphens }: { hyphens: HyphensOption }): string[] | null {
-    hyphens = [hyphens].flat()
-    let result: string[] | null
-    for (const h of hyphens) {
-      switch (h) {
-        case false: return null
-        case true: result = this.codeParts; break
-        case 'source': result = this.sourceCodeParts; break
-      }
-      if (result !== null) return result
-    }
-    switch (hyphens[hyphens.length - 1]) {
-      case true: throw new IsbnError('registration_group_not_found', 'disable hyphens; or chain hyphens flags; or update @pubdate/isbn')
-      case 'source': throw new IsbnError('missing_or_invalid_hyphens', 'disable hyphens; or chain hyphens flags')
-      default: throw new Error()
-    }
+    ].filter(x => x).join(h === false ? '' : '-')
   }
 }
