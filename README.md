@@ -242,6 +242,21 @@ ISBN.parse('2070408507').generateChecksum({ version: 'isbn10' }) // '7'
 ISBN.parse('2070408507').generateChecksum({ version: 'isbn13' }) // '4'
 ```
 
+### `isCompatible({ version = 'isbn13', hyphens = false })`
+
+Wether or not the ISBN is compatible with the specified version and if the specified hyphens are supported.
+
+```js
+ISBN.parse('2070408507').isCompatible({ version: 'isbn10' }) // true
+ISBN.parse('9782070408504').isCompatible({ version: 'isbn10' }) // true
+ISBN.parse('9798565336375').isCompatible({ version: 'isbn10' }) // false
+
+ISBN.parse('2070408507').isCompatible({ hyphens: true }) // true
+ISBN.parse('6699999990').isCompatible({ hyphens: true }) // false
+ISBN.parse('207-040-850-7').isCompatible({ hyphens: 'source' }) // true
+ISBN.parse('2070408507').isCompatible({ hyphens: 'source' }) // false
+```
+
 ### `toString({ version = 'isbn13', hyphens = false })` (registration groups required for `{ hyphens: true }`)
 
 Returns the formatted ISBN.

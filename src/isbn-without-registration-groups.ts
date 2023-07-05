@@ -266,12 +266,17 @@ export default class IsbnWithoutRegistrationGroups {
   }
 
   /**
-   * Wether or not the ISBN is compatible with the specified version.
+   * Wether or not the ISBN is compatible with the specified version and if the specified hyphens are supported.
    *
    * @example
    * ISBN.parse('2070408507').isCompatible({ version: 'isbn10' }) // true
    * ISBN.parse('9782070408504').isCompatible({ version: 'isbn10' }) // true
    * ISBN.parse('9798565336375').isCompatible({ version: 'isbn10' }) // false
+   *
+   * ISBN.parse('2070408507').isCompatible({ hyphens: true }) // true
+   * ISBN.parse('6699999990').isCompatible({ hyphens: true }) // false
+   * ISBN.parse('207-040-850-7').isCompatible({ hyphens: 'source' }) // true
+   * ISBN.parse('2070408507').isCompatible({ hyphens: 'source' }) // false
    */
   isCompatible ({ version = 'isbn13', hyphens = false }: { version?: Version, hyphens?: _HyphensOption }): boolean {
     // version
