@@ -1,7 +1,17 @@
 {
   "name": "@pubdate/isbn",
   "version": "0.2.0",
-  "description": "",
+  "description": "A library to parse, validate and format ISBNs.",
+  "keywords": [
+    "isbn",
+    "parse",
+    "search",
+    "validate",
+    "format",
+    "country",
+    "language",
+    "book"
+  ],
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
