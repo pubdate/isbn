@@ -2,38 +2,6 @@
 
 A library to parse, validate and format ISBNs.
 
-## Before you start
-
-Do not use **hyphenated ISBNs** as identifiers.
-
-- Missing or outdated registration groups may result in runtime errors.
-- Different versions of this package may output different hyphenated ISBN (due to registration groups being time-sensitive).
-
-Do not use **isbn10** as identifiers.
-
-- Some ISBNs are not compatible with isbn10.
-
-### Computer-friendly
-
-By default, `toString()` uses `{ version: 'isbn13', hyphens: false }` which is future-proof and non-time-sensitive:
-
-```js
-ISBN.parse('2070408507').toString() // '9782070408504'
-```
-
-### Human-friendly
-
-To display ISBNs on a web page or other documents meant to be read by humans, use `{ hyphens: [true, false] }` to fallback and avoid errors caused by missing registration groups.
-And verify that the ISBN is compatible before using `{ version: 'isbn10' }`. Or use `{ version: ['isbn10', 'isbn13'] }` to fallback to isbn13 whenever needed.
-
-```js
-const isbn = ISBN.parse('2070408507')
-
-`ISBN-10: ${isbn.isCompatible({ version: 'isbn10' }) ? isbn.toString({ version: 'isbn10', hyphens: [true, false] }) : 'N/A'}`
-`ISBN-10 (with fallback): ${isbn.toString({ version: ['isbn10', 'isbn13'], hyphens: [true, false] })}`
-`ISBN-13: ${isbn.toString({ hyphens: [true, false] })}`
-```
-
 ## Getting Started
 
 This library can be imported with or without registration groups.
@@ -99,6 +67,38 @@ ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] })
 ```
 
 </details>
+
+## Before you start
+
+Do not use **hyphenated ISBNs** as identifiers.
+
+- Missing or outdated registration groups may result in runtime errors.
+- Different versions of this package may output different hyphenated ISBN (due to registration groups being time-sensitive).
+
+Do not use **isbn10** as identifiers.
+
+- Some ISBNs are not compatible with isbn10.
+
+### Computer-friendly
+
+By default, `toString()` uses `{ version: 'isbn13', hyphens: false }` which is future-proof and non-time-sensitive:
+
+```js
+ISBN.parse('2070408507').toString() // '9782070408504'
+```
+
+### Human-friendly
+
+To display ISBNs on a web page or other documents meant to be read by humans, use `{ hyphens: [true, false] }` to fallback and avoid errors caused by missing registration groups.
+And verify that the ISBN is compatible before using `{ version: 'isbn10' }`. Or use `{ version: ['isbn10', 'isbn13'] }` to fallback to isbn13 whenever needed.
+
+```js
+const isbn = ISBN.parse('2070408507')
+
+`ISBN-10: ${isbn.isCompatible({ version: 'isbn10' }) ? isbn.toString({ version: 'isbn10', hyphens: [true, false] }) : 'N/A'}`
+`ISBN-10 (with fallback): ${isbn.toString({ version: ['isbn10', 'isbn13'], hyphens: [true, false] })}`
+`ISBN-13: ${isbn.toString({ hyphens: [true, false] })}`
+```
 
 ## API
 
