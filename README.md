@@ -2,6 +2,66 @@
 
 A library to parse, validate and format ISBNs.
 
+## Getting Started
+
+### NPM
+
+```sh
+npm i @pubdate/isbn
+```
+
+```js
+import ISBN from '@pubdate/isbn'
+
+ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '978-2-07-040850-4'
+```
+
+### CDN
+
+```html
+<script src="https://unpkg.com/@pubdate/isbn"></script>
+
+<script>
+  ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '978-2-07-040850-4'
+</script>
+```
+
+<details>
+
+<summary>Or without registration groups (5.4k instead of 27.1k)</summary>
+
+This library can be imported with or without registration groups.
+Registration groups are needed to format ISBNs with hyphens and to get agency info (countryCode, langCode, ...).
+
+Using ISBN with registration groups comes with drawbacks:
+
+- Registration groups need to be updated frequently. This package is automatically updated daily but you may need to update your dependencies regularly.
+- The version of this library with registration groups is heavier than without registration groups. 27.1k (gzipped: 7.4k) and 5.4k (gzipped: 2.2k) respectively.
+
+### NPM (without registration groups)
+
+```sh
+npm i @pubdate/isbn
+```
+
+```js
+import ISBN from '@pubdate/isbn/dist/isbn-without-registration-groups'
+
+ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '9782070408504'
+```
+
+### CDN (without registration groups)
+
+```html
+<script src="https://unpkg.com/@pubdate/isbn/dist/isbn-without-registration-groups"></script>
+
+<script>
+  ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '9782070408504'
+</script>
+```
+
+</details>
+
 ## Before you start
 
 Do not use **hyphenated ISBNs** as identifiers.
@@ -33,72 +93,6 @@ const isbn = ISBN.parse('2070408507')
 `ISBN-10 (with fallback): ${isbn.toString({ version: ['isbn10', 'isbn13'], hyphens: [true, false] })}`
 `ISBN-13: ${isbn.toString({ hyphens: [true, false] })}`
 ```
-
-## Getting Started
-
-This library can be imported with or without registration groups.
-Registration groups are needed to format ISBNs with hyphens and to get agency info (countryCode, langCode, ...).
-
-Using ISBN with registration groups comes with drawbacks:
-
-- Registration groups need to be updated frequently. This package is automatically updated daily but you may need to update your dependencies regularly.
-- The version of this library with registration groups is heavier than without registration groups. 27.1k (gzipped: 7.4k) and 5.4k (gzipped: 2.2k) respectively.
-
-### With registration groups
-
-<details>
-
-#### NPM (with registration groups)
-
-```sh
-npm i @pubdate/isbn
-```
-
-```js
-import ISBN from '@pubdate/isbn'
-
-ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '978-2-07-040850-4'
-```
-
-#### CDN (with registration groups)
-
-```html
-<script src="https://unpkg.com/@pubdate/isbn"></script>
-
-<script>
-  ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '978-2-07-040850-4'
-</script>
-```
-
-</details>
-
-### Without registration groups
-
-<details>
-
-#### NPM (without registration groups)
-
-```sh
-npm i @pubdate/isbn
-```
-
-```js
-import ISBN from '@pubdate/isbn/dist/isbn-without-registration-groups'
-
-ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '9782070408504'
-```
-
-#### CDN (without registration groups)
-
-```html
-<script src="https://unpkg.com/@pubdate/isbn/dist/isbn-without-registration-groups"></script>
-
-<script>
-  ISBN.parse('2070408507').toString({ version: 'isbn13', hyphens: [true, false] }) // '9782070408504'
-</script>
-```
-
-</details>
 
 ## API
 
