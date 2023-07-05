@@ -24,12 +24,12 @@ ISBN.parse('2070408507').toString() // '9782070408504'
 ### Human-friendly
 
 To display ISBNs on a web page or other documents meant to be read by humans, use `{ hyphens: [true, false] }` to fallback and avoid errors caused by missing registration groups.
-And verify that the `eanPrefix` of the ISBN is `'978'` before using `{ version: 'isbn10' }`. Or use `{ version: ['isbn10', 'isbn13'] }` to fallback to isbn13 whenever needed.
+And verify that the ISBN is compatible before using `{ version: 'isbn10' }`. Or use `{ version: ['isbn10', 'isbn13'] }` to fallback to isbn13 whenever needed.
 
 ```js
 const isbn = ISBN.parse('2070408507')
 
-`ISBN-10: ${isbn.eanPrefix === '978' ? isbn.toString({ version: 'isbn10', hyphens: [true, false] }) : 'N/A'}`
+`ISBN-10: ${isbn.isCompatible({ version: 'isbn10' }) ? isbn.toString({ version: 'isbn10', hyphens: [true, false] }) : 'N/A'}`
 `ISBN-10 (with fallback): ${isbn.toString({ version: ['isbn10', 'isbn13'], hyphens: [true, false] })}`
 `ISBN-13: ${isbn.toString({ hyphens: [true, false] })}`
 ```
@@ -152,10 +152,10 @@ ISBN.parse('9782070408504').version // 'isbn13'
 
 ### `eanPrefix`
 
-The first 3 digits of the source (`978` or `979`) for `isbn13`. And `978` for `isbn10`.
+The first 3 digits of the source for `isbn13`.
 
 ```js
-ISBN.parse('2070408507').eanPrefix // '978'
+ISBN.parse('2070408507').eanPrefix // undefined
 ISBN.parse('9782070408504').eanPrefix // '978'
 ISBN.parse('9798565336375').eanPrefix // '979'
 ```

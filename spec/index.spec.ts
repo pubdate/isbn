@@ -82,6 +82,17 @@ describe('ISBN', () => {
         })
       })
     })
+
+    describe('isCompatible', () => {
+      test('it returns true when source is compatible with the specified version', () => {
+        expect(ISBN.parse('2070408507').isCompatible({ version: 'isbn10' })).toEqual(true)
+        expect(ISBN.parse('9782070408504').isCompatible({ version: 'isbn10' })).toEqual(true)
+        expect(ISBN.parse('9798565336375').isCompatible({ version: 'isbn10' })).toEqual(false)
+        expect(ISBN.parse('2070408507').isCompatible({ version: 'isbn13' })).toEqual(true)
+        expect(ISBN.parse('9782070408504').isCompatible({ version: 'isbn13' })).toEqual(true)
+        expect(ISBN.parse('9798565336375').isCompatible({ version: 'isbn13' })).toEqual(true)
+      })
+    })
   })
 
   describe('agency', () => {
