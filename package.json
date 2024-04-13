@@ -1,6 +1,6 @@
 {
   "name": "@pubdate/isbn",
-  "version": "0.2.40",
+  "version": "0.2.41",
   "description": "A library to parse, validate and format ISBNs.",
   "keywords": [
     "isbn",
