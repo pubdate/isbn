@@ -323,7 +323,7 @@ export default class IsbnWithoutRegistrationGroups {
    * ISBN.parse('6699999990').toString({ hyphens: [true, 'source', false] }) // '9786699999993'
    */
   toString ({ version = 'isbn13', hyphens = false }: { version?: Version | Version[], hyphens?: HyphensOption } = {}): string {
-    if (!this.isValid) throw new IsbnError('invalid_source', 'check isValid before stringifying')
+    if (!this.isValid) throw new IsbnError('invalid_source', `check isValid before stringifying; error: ${this.error!}`)
     // version
     version = [version].flat()
     const v = version.find(version => this.isCompatible({ version }))
