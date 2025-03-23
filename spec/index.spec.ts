@@ -158,7 +158,7 @@ describe('ISBN', () => {
 
     test('it fails when source is invalid', () => {
       expect(ISBN.parse('9780385504201').toString()).toEqual('9780385504201')
-      expect(() => ISBN.parse('9780385504202').toString()).toThrow('[@pubdate/isbn] invalid_source (check isValid before stringifying)')
+      expect(() => ISBN.parse('9780385504202').toString()).toThrow('[@pubdate/isbn] invalid_source (check isValid before stringifying; error: invalid_checksum)')
     })
 
     test('it fails when source cannot be converted to isbn10', () => {
